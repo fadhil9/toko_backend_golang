@@ -40,3 +40,22 @@ func GetProduct(db *gorm.DB) gin.HandlerFunc {
 		c.JSON(200, product)
 	}
 }
+
+func CreateProduct(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var input models.Product
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(400, gin.H{"message": "invalid input"})
+			return
+		}
+		db.Create(&input)
+		c.JSON(201, input)
+	}
+}
+
+func UpdateProduct(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("id")
+
+	}
+}
