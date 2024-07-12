@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"gocommerce/models"
 	"sync"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"main.go/models"
 )
 
 func ListProducts(db *gorm.DB) gin.HandlerFunc {
@@ -56,6 +56,32 @@ func CreateProduct(db *gorm.DB) gin.HandlerFunc {
 func UpdateProduct(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("id")
+		var product models.Product
+		if err := db.First(&product, id).Error; err != nil {
+			c.JSON(400, gin.H{"Message": "Product Not Found"})
+			return
+		}
 
+		var input models.Product
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(400, gin.H{"Message": "invalid input"})
+			return
+		}
+
+		db.Model(&product).Updates(input)
+		c.JSON(200, product)
+	}
+}
+
+func DeleteProduct(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("id")
+		var product models.Product
+		if err := db.First(&product, id).Error; err != nil {
+			c.JSON(404, gin.H{"message": "Product Not Found"})
+		}
+
+		db.Delete(&product)
+		c.JSON(200, gin.H{"message": "Product Deleted"})
 	}
 }
