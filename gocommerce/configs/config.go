@@ -1,8 +1,9 @@
 package configs
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var DB *gorm.DB
@@ -12,6 +13,8 @@ func InitDB() (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("coba")
+	fmt.Println("coba")
 	DB = db
 	return DB, nil
 }

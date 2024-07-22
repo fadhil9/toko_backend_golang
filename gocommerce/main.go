@@ -1,8 +1,9 @@
 package main
 
 import (
-	"main.go/handlers"
 	"github.com/gin-gonic/gin"
+	"main.go/configs"
+	"main.go/handlers"
 )
 
 func main() {
