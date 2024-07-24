@@ -5,6 +5,9 @@ import (
 	"main.go/configs"
 	"main.go/handlers"
 	"main.go/middlewares"
+
+	"net/http"
+	_ "net/http/pprof"
 )
 
 func main() {
@@ -35,6 +38,9 @@ func main() {
 	//login register
 	router.POST("/login", handlers.Login(db))
 	router.POST("/register", handlers.Register(db))
+
+	//profiling
+	router.GET("/debug/pprof/*pprof", gin.WrapH(http.DefaultServeMux))
 
 	router.Run(":8080")
 
