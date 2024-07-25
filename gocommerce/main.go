@@ -35,7 +35,9 @@ func main() {
 	router.DELETE("/product-categories/:id", handlers.DeleteProductCategory(db))
 
 	//transaction
-	//login register
+	router.POST("/transactions", handlers.CreateTransaction(db))
+	router.GET("/transactions/:id", handlers.GetTransactionWithItems(db))
+	//login register auth
 	router.POST("/login", handlers.Login(db))
 	router.POST("/register", handlers.Register(db))
 
